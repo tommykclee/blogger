@@ -1,0 +1,28 @@
+{% extends "index.html" %}
+{% block header %}
+  Welcome, <b>{{ current_user }}</b>!!<br>
+  <form action="/" style='display:inline;'>Blog: 
+    <select name='blog_name'>
+      <option value="">
+        Please Select:
+      </option>
+      {% for blog in blogs %}
+      <option value="{{ blog.name }}">
+        {{ blog.name }}
+      </option>
+      {% endfor %}
+    </select>
+    <input type="submit" value="go">
+  </form>
+  
+  {% if not is_guest %}
+  <form action="/create?user_name={{ current_user }}" method="post" style='display:inline;'>Create blog:
+    <input value="" name="newblog_name">
+    <input type="submit" value="submit">
+  </form>
+  {% endif %}
+
+  <a href="{{ url|safe }}">{{ url_linktext }}</a>
+
+
+{% endblock%}

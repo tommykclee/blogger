@@ -1,0 +1,11 @@
+{% extends "index.html" %}
+{% block tags %}
+
+<hr>
+
+Tags:
+{% for tag in tags %}
+    <a href='/?tag={{ tag }}'>{{ tag }}</a>
+{% endfor %}
+
+{% endblock %}

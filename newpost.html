@@ -1,0 +1,20 @@
+{% extends "index.html" %}
+{% block newpost %}
+
+<hr>
+
+<form action="{{ upload_url }}" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="current_user" value={{ current_user }}>
+  <input type="hidden" name="blog_name" value={{ blog_name }}>
+  <input type="hidden" name="post_id" value={{ post_id }}>
+  <div>Title: <input type="text" name="title" value={{ post_title }}><br></div>
+  <div><br>Content:<br><textarea name="content" rows="3" cols="60">{{ post_content }}</textarea></div>
+  <div>Pictures:<br>
+    <input type="file" name="img1" accept="image/*"/><br>
+    <input type="file" name="img2" accept="image/*"/><br>
+    <input type="file" name="img3" accept="image/*"/></div>
+  <div><br>Tags(comma separated):<br><input type="text" name="tags" value={{ post_tags }}></div>
+  <div><input type="submit" value="submit"></div>
+</form>
+
+{% endblock %}

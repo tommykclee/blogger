@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+  <head>
+    {% block header %}
+    {% endblock %}
+  </head>
+  <body>
+    {% block tags%}
+    {% endblock %}
+
+    {% block view %}
+    {% endblock %}
+
+    {% block newpost %}
+    {% endblock %}
+
+    {% block rss %}
+    {% endblock %}
+  </body>
+</html>
+{% endautoescape %}
+
+

@@ -1,0 +1,29 @@
+{% extends "index.html" %}
+{% block view %}
+
+<hr>
+
+<a href='/?blog_name={{ blog_name }}'>Back to blog</a>
+{% if is_editor %}
+<a href='/viewpost?blog_name={{ blog_name }}&post_id={{ post_id }}&edit_mode=true'>Edit</a>
+{% endif %}
+
+<h2>{{ post.title }}</h2><p>by {{ post.author }}<p>last updated at {{ post.edit_time.strftime("%y-%m-%d %H:%M:%S") }}<p>created at {{ post.create_time.strftime("%y-%m-%d %H:%M:%S") }}
+</br>
+
+{{ post.content|safe }}
+
+<p><p>
+
+{% for img_url in post.imgs_url %}
+<img src={{ img_url }}>
+{% endfor %}
+
+<p><p>
+
+Tags:
+{% for tag in post.tags %}
+    <b>{{ tag }}  </b>
+{% endfor %}
+
+{% endblock %}

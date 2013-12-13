@@ -1,0 +1,29 @@
+{% extends "index.html" %}
+{% block view %}
+
+<hr>
+
+{% if not posts %}
+    <b>No posts!</b>
+{% else %}
+    {% for post in posts %}
+        {% if post %}
+            <h3>{{ post.title }}</h3><p>by {{ post.author }} at {{ post.edit_time.strftime("%y-%m-%d %H:%M:%S") }}
+            </br>
+            <pre>{{ post.content[:500]|safe }}   <a href="/viewpost?blog_name={{ post.blog_name }}&post_id={{ post.key.id() }}">Read more</a></pre>
+            </br>    
+        {% endif %}
+    {% endfor %}
+    {% if newer_pages %}
+        <a href='/?blog_name={{ blog_name }}&page={{ page|int - 1 }}'>Newer Posts</a>
+    {% endif %}    
+    {% if older_pages %}
+        <a href='/?blog_name={{ blog_name }}&page={{ page|int + 1 }}'>Older Posts</a>
+    {% endif %}
+{% endif %}
+
+{% if blog_name %}
+    <a href='/rssgen?blog_name={{ blog_name }}'>RSS</a>
+{% endif %}
+
+{% endblock %}
