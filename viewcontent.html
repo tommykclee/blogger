@@ -5,10 +5,13 @@
 
 <a href='/?blog_name={{ blog_name }}'>Back to blog</a>
 {% if is_editor %}
-<a href='/viewpost?blog_name={{ blog_name }}&post_id={{ post_id }}&edit_mode=true'>Edit</a>
+    <a href='/viewpost?blog_name={{ blog_name }}&post_id={{ post_id }}&edit_mode=true'>Edit</a>
+    Views: {{ post.views }}
 {% endif %}
 
 <h2>{{ post.title }}</h2><p>by {{ post.author }}<p>last updated at {{ post.edit_time.strftime("%y-%m-%d %H:%M:%S") }}<p>created at {{ post.create_time.strftime("%y-%m-%d %H:%M:%S") }}
+</br>
+</br>
 </br>
 
 {{ post.content|safe }}

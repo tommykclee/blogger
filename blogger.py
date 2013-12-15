@@ -71,11 +71,11 @@ class Post(ndb.Model):
     title = ndb.StringProperty()
     author = ndb.UserProperty()
     content = ndb.StringProperty(indexed=False)
-    #images = ndb.BlobProperty(repeated=True)
     imgs_url = ndb.StringProperty(repeated=True)
     create_time = ndb.DateTimeProperty(auto_now_add=True)
     edit_time = ndb.DateTimeProperty(auto_now=True)
     tags = ndb.StringProperty(repeated=True)
+    views = ndb.IntegerProperty()
 
 class Greeting(ndb.Model):
     """Models an individual Guestbook entry with author, content, and date."""
@@ -231,14 +231,9 @@ class Newpost(blobstore_handlers.BlobstoreUploadHandler):
             if img_url is not None:
                 imgs.append(img_url)
 
-            #if hasattr(self.request.POST.get('img1'), 'file'):
-            #   imgs.append(images.Image(self.request.POST.get('img1').file.read()))
-            #if hasattr(self.request.POST.get('img2'), 'file'):
-            #   imgs.append(images.Image(self.request.POST.get('img2').file.read()))
-            #if hasattr(self.request.POST.get('img3'), 'file'):
-            #   imgs.append(images.Image(self.request.POST.get('img3').file.read()))
             post.imgs_url.extend(imgs)
             post.tags = self.request.get('tags').split(",")
+            post.views = 0
             post.put()
         self.redirect('/?blog_name=' + self.request.get('blog_name'))
 
@@ -255,7 +250,9 @@ class Viewpost(webapp2.RequestHandler):
         if blog_name:
             #blog_posts_query = Post.query(Post.blog_key == blog_key(blog_name)).order(-Post.edit_time)
             post = ndb.Key(Post, int(self.request.get('post_id'))).get()
-           
+            if post.views is not None:
+                post.views += 1
+            post.put()
             #post = Post.query(Post.key.id == int(self.request.get('post_id')))
 
         if users.get_current_user():
@@ -333,7 +330,6 @@ class RSSGen(webapp2.RequestHandler):
             item = {}
             item['guid'] = str(post.blog_key.urlsafe())
             item['title'] = post.title
-            #item['author'] = post.author.name.get
             item['link'] = "http://blogger-kcl.appspot.com/?blog_name=" + blog[0].name + "&post_id=" + str(post.key.id())
             item['description'] = post.content
             item['imgs_url'] = post.imgs_url
